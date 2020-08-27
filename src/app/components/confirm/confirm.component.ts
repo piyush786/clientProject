@@ -6,27 +6,24 @@ import * as jwt_decode from 'jwt-decode';
 
 @Component({
   selector: 'app-root',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  templateUrl: './confirm.component.html',
+  styleUrls: ['./confirm.component.css']
 })
-export class LoginComponent {
+export class ConfirmComponent {
   error:any = false;
   model={ 
-    username: '',
-    password: ''
+    username : localStorage.getItem('currentUser'),
+    password: '',
+    newPassword: '',
+    cNewPassword: '',
   }
   
   constructor(private loginServ : LoginService, public router: Router) {}
 
   formSubmit(e) {
     e.preventDefault(); 
-    this.loginServ.doLogin(this.model.username, this.model.password).subscribe(
+    this.loginServ.doConfirm(this.model.username, this.model.password, this.model.newPassword).subscribe(
       (res:any)=>{
-        if (res.data.newPasswordRequired) {
-          localStorage.setItem('currentUser', this.model.username);
-          this.router.navigate(['/confirm']);
-        }
-        else {
           this.error = false
           var decodedToken = jwt_decode(res.data.token);
           localStorage.setItem('currentUser', this.model.username);
@@ -35,7 +32,6 @@ export class LoginComponent {
           localStorage.setItem('userDisplayName', decodedToken['given_name'] + ' ' + decodedToken['family_name']);
           localStorage.setItem('userRole', decodedToken['custom:role']);
           this.router.navigate(['/']);
-        }
       },
      (error)=>{
         this.error = "Invalid login. Please try again."

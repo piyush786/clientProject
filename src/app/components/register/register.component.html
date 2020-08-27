@@ -4,23 +4,23 @@
         <div class="col-md-3"></div>
         <div class="col-md-6">
             <h2>Register</h2>
-            <form name="form" (submit)="formSubmit($event)" role="form">
+            <form *ngIf="showForm" name="form" (submit)="formSubmit($event)" role="form">
                 <div class="form-group"> <label for="firstName">First name</label> 
-                    <input type="text" name="firstName" id="firstName" class="form-control" required=""> 
+                    <input type="text" name="firstName" [(ngModel)]="model.firstName" id="firstName" class="form-control" required=""> 
                 </div>
                 <div class="form-group"> <label for="firstName">Last name</label> 
-                    <input type="text" name="lastName" id="lastName" class="form-control" required=""> 
+                    <input type="text" name="lastName" [(ngModel)]="model.lastName" id="lastName" class="form-control" required=""> 
                 </div>
                 <div class="form-group"> <label for="email">Email Address</label> 
-                    <input type="text" name="email" id="email" class="form-control" required=""> 
+                    <input type="text" name="email" [(ngModel)]="model.email" id="email" class="form-control" required=""> 
                 </div>
                 <div class="form-group"> <label for="company">Company</label> 
-                    <input type="text" name="company" id="company" class="form-control" required=""> 
+                    <input type="text" name="company"  [(ngModel)]="model.companyName" id="company" class="form-control" required=""> 
                 </div>
                             
                 <div class="form-group"> 
                     <label for="plan">Plan</label> 
-                    <select class="form-control" id="plan" name="plan" required="">
+                    <select class="form-control" [(ngModel)]="model.plan" id="plan" name="plan" required="">
                         <option value="Free Tier" selected="selected">Free Tier</option>
                         <option value="Standard Tier">Standard Tier</option>
                         <option value="Professional Tier">Professional Tier</option>
@@ -34,6 +34,12 @@
                     <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
                 </div>
             </form>
+
+            <div *ngIf="successMessage"> 
+                <h3>Success</h3> 
+                <p>Your account has been registered. An email with login instructions is on its way.</p> 
+            </div>
+
         </div>
     </div>
 </div>
